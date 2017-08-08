@@ -1,10 +1,12 @@
 1. Prerequisites
+
     Ubuntu 16.04
     Go version 1.7.x or greater
     Docker version 1.12 or greater
     Docker-compose version 1.8 or greater
 
 2. Hyperledger Fabric & Fabric-CA & Fabric-SDK-GO:
+
     2.1. Fabric v1.0.0-rc1:
         mkdir -p $GOPATH/src/github.com/hyperledger && \
         cd $GOPATH/src/github.com/hyperledger && \
@@ -13,12 +15,14 @@
         git checkout v1.0.0-rc1
 
     2.2. Fabric-ca v1.0.0-rc1:
+
         cd $GOPATH/src/github.com/hyperledger && \
         git clone https://github.com/hyperledger/fabric-ca.git && \
         cd fabric-ca && \
         git checkout v1.0.0-rc1
 
     2.3. Fabric-SDK-GO :
+
         cd $GOPATH/src/github.com/hyperledger && \
         git clone https://github.com/hyperledger/fabric-sdk-go.git && \
         cd fabric-sdk-go && \
@@ -30,6 +34,7 @@
             go get github.com/hyperledger/fabric-sdk-go/pkg/fabric-ca-client
 
 3. Prepare the environment :
+
     mkdir -p $GOPATH/src/github.com/noursaadallah/kidner && \
     cd $GOPATH/src/github.com/noursaadallah/kidner
 
