@@ -53,43 +53,43 @@ setup-preq:
 	@sudo service docker restart
 
 	@echo "install Go 1.8.3 and set the GOPATH to $HOME/go"
-	@wget https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz && \
-	@sudo tar -C /usr/local -xzf go1.8.3.linux-amd64.tar.gz && \
-	@rm go1.8.3.linux-amd64.tar.gz && \
-	@echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee -a /etc/profile && \
-	@echo 'export GOPATH=$HOME/go' | tee -a $HOME/.bashrc && \
-	@echo 'export PATH=$PATH:$GOROOT/bin:$GOPATH/bin' | tee -a $HOME/.bashrc && \
+	@wget https://storage.googleapis.com/golang/go1.8.3.linux-amd64.tar.gz
+	@sudo tar -C /usr/local -xzf go1.8.3.linux-amd64.tar.gz
+	@rm go1.8.3.linux-amd64.tar.gz
+	@echo 'export PATH=$PATH:/usr/local/go/bin' | sudo tee -a /etc/profile
+	@echo 'export GOPATH=$HOME/go' | tee -a $HOME/.bashrc
+	@echo 'export PATH=$PATH:$GOROOT/bin:$GOPATH/bin' | tee -a $HOME/.bashrc
 	@mkdir -p $HOME/go/{src,pkg,bin}
 
 	@echo "please login and logout for the changes to take effect"
 
 
 #### init the setup : hyperledger fabric & fabric-ca & fabric-sdk-go
-setup-fabric:
+setup-hf:
 	@echo "setup hyperledger fabric & fabric-ca & fabric-sdk-go & external libs"
 	
 	@echo "setup fabric to version v1.0.0-rc1"
-	@mkdir -p $GOPATH/src/github.com/hyperledger && \
-	@cd $GOPATH/src/github.com/hyperledger && \
-	@git clone https://github.com/hyperledger/fabric.git && \
-	@cd fabric && \
+	@mkdir -p $GOPATH/src/github.com/hyperledger
+	@cd $GOPATH/src/github.com/hyperledger
+	@git clone https://github.com/hyperledger/fabric.git
+	@cd fabric
 	@git checkout v1.0.0-rc1
 
 	@echo "setup fabric-ca to version v1.0.0-rc1"
-	@cd $GOPATH/src/github.com/hyperledger && \
-	@git clone https://github.com/hyperledger/fabric-ca.git && \
-	@cd fabric-ca && \
+	@cd $GOPATH/src/github.com/hyperledger
+	@git clone https://github.com/hyperledger/fabric-ca.git
+	@cd fabric-ca
 	@git checkout v1.0.0-rc1
 	
 	@echo "setup fabric-sdk-go to commit 85fa3101eb4694d464003c3a900672d632f17833"
-	@cd $GOPATH/src/github.com/hyperledger && \
-	@git clone https://github.com/hyperledger/fabric-sdk-go.git && \
-	@cd fabric-sdk-go && \
+	@cd $GOPATH/src/github.com/hyperledger
+	@git clone https://github.com/hyperledger/fabric-sdk-go.git
+	@cd fabric-sdk-go
 	@git checkout 85fa3101eb4694d464003c3a900672d632f17833
 	
 	@echo "installing fabric & fabric-ca packages"
 	@sudo apt install libltdl-dev
-	@go get github.com/hyperledger/fabric-sdk-go/pkg/fabric-client && \
+	@go get github.com/hyperledger/fabric-sdk-go/pkg/fabric-client
 	@go get github.com/hyperledger/fabric-sdk-go/pkg/fabric-ca-client
 
 	@echo "installing fabric-sdk-go dependencies"
@@ -98,8 +98,8 @@ setup-fabric:
 	@echo "fabric & fabric-ca & fabric-sdk-go setup done"
 
 	@echo "setup external libs"
-	@go get -u github.com/kardianos/govendor && \
-	@cd $GOPATH/src/github.com/chainhero/heroes-service && \
+	@go get -u github.com/kardianos/govendor
+	@cd $GOPATH/src/github.com/chainhero/heroes-service
 	@govendor init && govendor add +external
 
 
