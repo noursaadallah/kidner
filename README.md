@@ -35,9 +35,9 @@
 
 3. Prepare the environment :
 
-    mkdir -p $GOPATH/src/github.com/noursaadallah/kidner && \
-    cd $GOPATH/src/github.com/noursaadallah/kidner
+    mkdir -p $GOPATH/src/github.com/noursaadallah && \
+    cd $GOPATH/src/github.com/noursaadallah
 
-    git clone https://github.com/noursaadallah/kidner
+    git clone https://github.com/noursaadallah/kidner.git
 
     make or make all 
