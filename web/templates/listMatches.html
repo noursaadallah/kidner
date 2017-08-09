@@ -1,0 +1,36 @@
+{{define "title"}} List Matches {{end}} {{define "body"}}
+
+<h1>List Matches</h1>
+
+{{ if .Response }} {{ if .Success }} {{ if .Matches }}
+
+<!-- display pairs information -->
+<div class="alert alert-success" role="alert">
+    Query successful
+</div>
+
+{{range .Matches}}
+
+<div>
+    <div class="col-lg-12 panel panel-default" style="border:1px solid dimgray ;">
+        <div class="col-lg-12">
+
+            Date : {{.CreateDate.Format "02/01/2006 15:04 MST"}} <br>
+            Match ID : {{.ID}} <br>
+            Match Result : {{if .MatchedPairs}}
+                {{$matchedPairs0 := index .MatchedPairs 0}}
+                {{$length := len $matchedPairs0}}
+                  {{if eq $length 1}}  No cross-matches were found for pair ID : {{ index $matchedPairs0 0}} {{else}}
+                  <!--parse and display MatchedPairs[i]--> 
+                  A match is found : pair IDs : {{$matchedPairs0}}  {{end}}
+            {{else }} No matches were found {{end}}
+        </div>
+ 
+    </div>
+</div>
+
+{{end}} {{ else }}
+<div class="alert alert-danger" role="alert">
+    Match results not found.
+</div>
+{{ end }} {{ end }} {{ end }} {{end}}
