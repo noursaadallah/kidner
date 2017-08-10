@@ -17,12 +17,13 @@
 
 {{ if .Response }}
 {{ if .Success }}
-<!-- display pair information -->
-<div class="alert alert-success" role="alert">
+<div class="alert alert-success alert-dismissable">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     Successful query , value = {{ .Doctor }}
 </div>
 {{ else }}
-<div class="alert alert-danger" role="alert">
+<div class="alert alert-danger alert-dismissable">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     Unable to query the key, retry later.
 </div>
 {{ end }}

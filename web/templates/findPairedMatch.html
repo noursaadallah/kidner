@@ -3,13 +3,13 @@
 
 {{ if .Response }} {{ if .Success }}
 <div class="alert alert-success" role="alert">
-    Match result registered successfully,
-    Attention : This does not mean that a match has been found for this pair, the result could be empty! 
+    Match result registered successfully, <br>
+    Attention : This does not mean that a match has been found for this pair, the result could be empty! <br>
     Transaction ID: {{ .TxID }}
 </div>
 <script type="text/JavaScript">
     function Redirect() { document.location.href="listActivePairs.html"; } 
-    setTimeout('Redirect()', 5000);
+    setTimeout('Redirect()', 20000);
 </script>
 {{ else }}
 <div class="alert alert-danger" role="alert">

@@ -12,9 +12,8 @@
 </form>
 
 {{ if .Response }} {{ if .Success }}
-<!-- display pair information -->
-<div class="alert alert-success" role="alert">
-    <!-- Successful query , value = {{ .Pair }} -->
+<div class="alert alert-success alert-dismissable">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     Successful query for ID : {{.Pair.ID}}
 </div>
 <div>

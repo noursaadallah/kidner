@@ -3,11 +3,13 @@
 <h1>Create Pair :</h1>
 
 {{ if .Response }} {{ if .Success }}
-<div class="alert alert-success" role="alert">
+<div class="alert alert-success alert-dismissable">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     Pair created successfully, ID: {{ .TransactionId }}
 </div>
 {{ else }}
-<div class="alert alert-danger" role="alert">
+<div class="alert alert-danger alert-dismissable">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     Unable to submit the request, retry later.
 </div>
 {{ end }} {{ end }}

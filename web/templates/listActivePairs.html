@@ -4,11 +4,12 @@
 
 {{ if .Response }} {{ if .Success }} {{ if .Pairs }}
 
-<!-- display pairs information -->
-<div class="alert alert-success" role="alert">
+<div class="alert alert-success alert-dismissable">
+  <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
     Query successful
 </div>
 
+<!-- Display pairs information -->
 {{range .Pairs}}
 
 <div>

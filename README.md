@@ -1,3 +1,22 @@
+Install kidner :
+
+    mkdir -p $GOPATH/src/github.com/noursaadallah
+    cd $GOPATH/src/github.com/noursaadallah
+    git clone https://github.com/noursaadallah/kidner.git
+    cd kidner
+    make help => display help
+    make setup-preq => install prerequisites : docker & docker-compose & go v1.8.3
+    make setup-hf => install fabric & fabric-ca & fabric-sdk-go
+    make all => clean build env-up run
+
+start kidner:
+
+    cd $GOPATH/src/github.com/noursaadallah/kidner
+    make env-up run
+
+
+** Manual installation :
+
 1. Prerequisites
 
     Ubuntu 16.04
