@@ -1,4 +1,4 @@
-Install kidner :
+## Install kidner :
 
     mkdir -p $GOPATH/src/github.com/noursaadallah
     cd $GOPATH/src/github.com/noursaadallah
@@ -9,13 +9,13 @@ Install kidner :
     make setup-hf => install fabric & fabric-ca & fabric-sdk-go
     make all => clean build env-up run
 
-start kidner:
+## Start kidner:
 
     cd $GOPATH/src/github.com/noursaadallah/kidner
     make env-up run
 
 
-** Manual installation :
+## ** Manual installation :
 
 1. Prerequisites
 
@@ -27,6 +27,7 @@ start kidner:
 2. Hyperledger Fabric & Fabric-CA & Fabric-SDK-GO:
 
     2.1. Fabric v1.0.0-rc1:
+
         mkdir -p $GOPATH/src/github.com/hyperledger && \
         cd $GOPATH/src/github.com/hyperledger && \
         git clone https://github.com/hyperledger/fabric.git && \
