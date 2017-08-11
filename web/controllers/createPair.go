@@ -72,6 +72,12 @@ func (app *Application) CreatePairHandler(w http.ResponseWriter, r *http.Request
 		data.TransactionId = txid
 		data.Success = true
 		data.Response = true
+
+		// After the pair is created look for a match cycle automatically
+		_, err = app.Fabric.FindMatchCycle()
+		if err != nil {
+			http.Error(w, "Error while looking for a match cycle "+err.Error(), 500)
+		}
 	}
 	renderTemplate(w, r, "createPair.html", data)
 }

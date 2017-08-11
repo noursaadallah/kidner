@@ -561,7 +561,7 @@ func approveMatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 // ============================================================================================================================
 func refuseMatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var err error
-	logger.Debug("running the function approveMatch()")
+	logger.Debug("running the function refuseMatch()")
 
 	if len(args) != 3 {
 		return shim.Error(errNumArgs + "3")
