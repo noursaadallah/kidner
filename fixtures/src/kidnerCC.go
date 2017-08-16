@@ -59,7 +59,9 @@ func (t *KidnerCC) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 	case "listActivePairs":
 		return listActivePairs(stub, args)
 	case "findPairedMatch":
-		return FindPairedMatch(stub, args)
+		return findPairedMatch(stub, args)
+	case "findMatchCycle":
+		return findMatchCycle(stub, args)
 	case "getMatch":
 		return getMatch(stub, args)
 	case "getListMatches":
@@ -72,8 +74,6 @@ func (t *KidnerCC) Invoke(stub shim.ChaincodeStubInterface) pb.Response {
 		return approveMatch(stub, args)
 	case "refuseMatch":
 		return refuseMatch(stub, args)
-	case "findMatchCycle":
-		return FindMatchCycle(stub, args)
 	}
 
 	return shim.Error("Received unknown function invocation: " + function)
@@ -86,8 +86,8 @@ func createPair(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var err error
 	logger.Debug("running the function createPair()")
 
-	if len(args) != 17 {
-		return shim.Error(errNumArgs + "7 for each health record and the Dr ID and the 2 signatures")
+	if len(args) != 18 {
+		return shim.Error(errNumArgs + "7 for each health record and the Dr ID and the 3 signatures")
 	}
 
 	pairID := stub.GetTxID()
@@ -101,8 +101,11 @@ func createPair(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		return shim.Error(err.Error())
 	}
 
+	// get the doctor ID
+	drId := args[14]
 	recipientSig := args[15]
 	donorSig := args[16]
+	DrSig := args[17]
 
 	if strings.EqualFold(recipient.Type, donor.Type) {
 		return shim.Error("2 health records of the same type")
@@ -118,9 +121,8 @@ func createPair(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var pair Pair
 	pair = *recipient.Match(*donor)
 	pair.ID = pairID
-
-	// get the doctor ID
-	drId := args[14]
+	pair.DrID = drId
+	pair.DrSig = DrSig
 
 	//drSign := args[15]
 	// get dr by ID
@@ -138,8 +140,6 @@ func createPair(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	// 	logger.Error("Bad Dr signature")
 	// 	return shim.Error("Bad Dr signature")
 	// }
-
-	pair.DrID = drId
 
 	jsonP, err := json.Marshal(pair)
 	if err != nil {
@@ -348,7 +348,7 @@ func listActivePairs(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 // ============================================================================================================================
 // FindPairedMatch : find a paired match for the spcified pairID
 // ============================================================================================================================
-func FindPairedMatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+func findPairedMatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var pairID string
 	var err error
 
@@ -410,7 +410,7 @@ func FindPairedMatch(stub shim.ChaincodeStubInterface, args []string) pb.Respons
 // ============================================================================================================================
 // FindMatchCycle : find a chain of matches
 // ============================================================================================================================
-func FindMatchCycle(stub shim.ChaincodeStubInterface, args []string) pb.Response {
+func findMatchCycle(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	var err error
 
 	if len(args) != 0 {
@@ -525,14 +525,14 @@ func approveMatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	DrSig := args[1]
 	matchID := args[2]
 
-	doctor, err := getDoctorByID(stub, DrID)
-	if err != nil {
-		return shim.Error(err.Error())
-	}
+	// doctor, err := getDoctorByID(stub, DrID)
+	// if err != nil {
+	// 	return shim.Error(err.Error())
+	// }
 
-	if doctor.Signature != DrSig {
-		return shim.Error("incorrect signature")
-	}
+	// if doctor.Signature != DrSig {
+	// 	return shim.Error("incorrect signature")
+	// }
 
 	match, err := getMatchByID(stub, matchID)
 	if err != nil {
@@ -541,6 +541,7 @@ func approveMatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
 	match.Approved = true
 	match.EndorcingDr = DrID
+	match.DrSig = DrSig
 
 	jsonM, err := json.Marshal(match)
 	if err != nil {
@@ -571,14 +572,14 @@ func refuseMatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 	DrSig := args[1]
 	matchID := args[2]
 
-	doctor, err := getDoctorByID(stub, DrID)
-	if err != nil {
-		return shim.Error(err.Error())
-	}
+	// doctor, err := getDoctorByID(stub, DrID)
+	// if err != nil {
+	// 	return shim.Error(err.Error())
+	// }
 
-	if doctor.Signature != DrSig {
-		return shim.Error("incorrect signature")
-	}
+	// if doctor.Signature != DrSig {
+	// 	return shim.Error("incorrect signature")
+	// }
 
 	match, err := getMatchByID(stub, matchID)
 	if err != nil {
@@ -587,6 +588,7 @@ func refuseMatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
 	match.Approved = false
 	match.EndorcingDr = DrID
+	match.DrSig = DrSig
 
 	jsonM, err := json.Marshal(match)
 	if err != nil {
@@ -596,7 +598,7 @@ func refuseMatch(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 
 	err = stub.PutState(matchID, jsonM)
 	if err != nil {
-		return shim.Error("approveMatch() : " + errPutState)
+		return shim.Error("refuseMatch() : " + errPutState)
 	}
 
 	return shim.Success([]byte(matchID))

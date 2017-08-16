@@ -52,6 +52,7 @@ type Pair struct {
 	Match     bool         `json:"match"`
 	Active    bool         `json:"active"`
 	DrID      string       `json:"drId"`
+	DrSig     string       `json:"drSig"`
 }
 
 type Match struct {
@@ -60,6 +61,7 @@ type Match struct {
 	MatchedPairs [][]string `json:"matchedPairs"`
 	Approved     bool       `json:"approved"`
 	EndorcingDr  string     `json:"endorcingDr"`
+	DrSig        string     `json:"drSig"`
 	CreateDate   time.Time  `json:"createDate"`
 }
 

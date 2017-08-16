@@ -55,7 +55,7 @@ func (app *Application) CreatePairHandler(w http.ResponseWriter, r *http.Request
 		HLAsR := hlaA1R + "," + hlaA2R + "," + hlaB1R + "," + hlaB2R + "," + hlaDR1R + "," + hlaDR2R + "," + hlaDQ1R + "," + hlaDQ2R
 
 		DrID := r.FormValue("DrID")
-		//DrSig := r.FormValue("DrSig")
+		DrSig := r.FormValue("DrSig")
 		RecipientSig := r.FormValue("RecipientSig")
 		DonorSig := r.FormValue("DonorSig")
 
@@ -63,7 +63,7 @@ func (app *Application) CreatePairHandler(w http.ResponseWriter, r *http.Request
 		var args []string
 		args = []string{ageD, bloodTypeD, medicalUrgencyD, HLAsD, PRAD, eligibilityD, typeD,
 			ageR, bloodTypeR, medicalUrgencyR, HLAsR, PRAR, eligibilityR, typeR,
-			DrID /*DrSig,*/, RecipientSig, DonorSig}
+			DrID, RecipientSig, DonorSig, DrSig}
 
 		txid, err := app.Fabric.CreatePair(args)
 		if err != nil {

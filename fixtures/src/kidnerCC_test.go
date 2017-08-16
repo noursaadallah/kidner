@@ -29,6 +29,8 @@ const (
 	ELIGIBLE2       = "true"
 	TYPE2           = "recipient"
 	SIGR            = "recipientSIG"
+
+	DRSIG = "signature"
 )
 
 func InitLogger() {
@@ -73,7 +75,7 @@ func TestKidnerCC_CreatePairNominal(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
 
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.OK {
 		t.Log("bad status received, expected: 200; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -106,7 +108,7 @@ func TestKidnerCC_CreatePairIncorrectNbrArgs(t *testing.T) {
 func TestKidnerCC_CreatePairNegativeAge(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte("-5"), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte("-5"), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -121,7 +123,7 @@ func TestKidnerCC_CreatePairNegativeAge(t *testing.T) {
 func TestKidnerCC_CreatePairIncorrectAge(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte("a"), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte("a"), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -136,7 +138,7 @@ func TestKidnerCC_CreatePairIncorrectAge(t *testing.T) {
 func TestKidnerCC_CreatePairIncorrectBloodType(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte("wrongbloodtype"), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte("wrongbloodtype"), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -151,7 +153,7 @@ func TestKidnerCC_CreatePairIncorrectBloodType(t *testing.T) {
 func TestKidnerCC_CreatePairIncorrectMedUrg(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte("MEDICALURGENCY1"), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte("MEDICALURGENCY1"), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -166,7 +168,7 @@ func TestKidnerCC_CreatePairIncorrectMedUrg(t *testing.T) {
 func TestKidnerCC_CreatePairMedUrgOutBounds(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte("50"), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte("50"), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -181,7 +183,7 @@ func TestKidnerCC_CreatePairMedUrgOutBounds(t *testing.T) {
 func TestKidnerCC_CreatePairPRANotInt(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte("PRA1"), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte("PRA1"), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -196,7 +198,7 @@ func TestKidnerCC_CreatePairPRANotInt(t *testing.T) {
 func TestKidnerCC_CreatePairPRAOutBounds(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte("150"), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte("150"), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -211,7 +213,7 @@ func TestKidnerCC_CreatePairPRAOutBounds(t *testing.T) {
 func TestKidnerCC_CreatePairIncorrectEligibility(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte("ELIGIBLE1"), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte("ELIGIBLE1"), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -226,7 +228,7 @@ func TestKidnerCC_CreatePairIncorrectEligibility(t *testing.T) {
 func TestKidnerCC_CreatePairIncorrectHLAs(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte("HLAs1"), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte("HLAs1"), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -241,7 +243,7 @@ func TestKidnerCC_CreatePairIncorrectHLAs(t *testing.T) {
 func TestKidnerCC_CreatePairIncorrectType(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte("TYPE1"), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte("TYPE1"), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -256,7 +258,7 @@ func TestKidnerCC_CreatePairIncorrectType(t *testing.T) {
 func TestKidnerCC_CreatePairSameType(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE1), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE1), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500; received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -275,7 +277,7 @@ func TestKidnerCC_GetPairNominal(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
 
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pairID := string(res.Payload)
 	res = stub.MockInvoke("2", [][]byte{[]byte("getPair"), []byte(pairID)})
 	if res.Status != shim.OK {
@@ -326,7 +328,7 @@ func TestKidnerCC_DeletePairNominal(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
 
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pairID := string(res.Payload)
 	res = stub.MockInvoke("2", [][]byte{[]byte("deletePair"), []byte(pairID)})
 	if res.Status != shim.OK {
@@ -352,7 +354,7 @@ func TestKidnerCC_DeletePairIncorrectArgs(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
 
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pairID := string(res.Payload)
 	res = stub.MockInvoke("2", [][]byte{[]byte("deletePair"), []byte(pairID), []byte("additionalArg")})
 	if res.Status != shim.ERROR {
@@ -408,7 +410,7 @@ func TestKidnerCC_CreatePairWithMissingParams(t *testing.T) {
 func TestKidnerCC_DeletePairWithBadPairID(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	res = stub.MockInvoke("2", [][]byte{[]byte("deletePair"), []byte("badpairid")})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
@@ -427,7 +429,7 @@ func TestKidner_GetDeletedPair(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
 
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pairID := string(res.Payload)
 	res = stub.MockInvoke("2", [][]byte{[]byte("deletePair"), []byte(pairID)})
 	if res.Status != shim.OK {
@@ -439,7 +441,6 @@ func TestKidner_GetDeletedPair(t *testing.T) {
 		t.Log("getPair: this pair should be deleted")
 		t.FailNow()
 	}
-	res = stub.MockInvoke("4", [][]byte{[]byte("getPair"), []byte(pairID)})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.FailNow()
@@ -458,7 +459,7 @@ func TestKidnerCC_UpdatePairNominal(t *testing.T) {
 	stub := shim.NewMockStub("kidner", scc)
 
 	res1 := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1),
-		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	if res1.Status != shim.OK {
 		t.Log("bad status received, expected: 200; received:" + strconv.FormatInt(int64(res1.Status), 10))
 		t.Log("response: " + string(res1.Message))
@@ -518,6 +519,11 @@ func TestKidnerCC_UpdatePairSameType(t *testing.T) {
 		t.Log("response: " + string(res2.Message))
 		t.FailNow()
 	}
+	if !strings.Contains(res2.Message, "2 health records of the same type") {
+		t.Log("bad error message received")
+		t.Log("response: " + string(res2.Message))
+		t.FailNow()
+	}
 }
 
 // =====================================================================================================================
@@ -527,7 +533,7 @@ func TestKidnerCC_DeactivatePairNominal(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
 
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pairID := string(res.Payload)
 	res = stub.MockInvoke("2", [][]byte{[]byte("deactivatePair"), []byte(pairID)})
 	if res.Status != shim.OK {
@@ -563,7 +569,7 @@ func TestKidnerCC_DeactivatePairIncorrectArgs(t *testing.T) {
 	stub := shim.NewMockStub("kidner", scc)
 
 	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1),
-		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pairID := string(res.Payload)
 	res = stub.MockInvoke("2", [][]byte{[]byte("deactivatePair")})
 	if res.Status != shim.ERROR {
@@ -621,7 +627,7 @@ func TestKidnerCC_ListActivePairsEmpty(t *testing.T) {
 func TestKidnerCC_ListActivePairsIncorrectArgs(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
-	res := stub.MockInvoke("1", [][]byte{[]byte("listActivePairs"), []byte("listActivePairs")})
+	res := stub.MockInvoke("1", [][]byte{[]byte("listActivePairs"), []byte("incorrectArg")})
 	if res.Status != shim.ERROR {
 		t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
 		t.Log("response: " + string(res.Message))
@@ -636,7 +642,7 @@ func TestKidnerCC_ListActivePairsNominal(t *testing.T) {
 	scc := new(KidnerCC)
 	stub := shim.NewMockStub("kidner", scc)
 
-	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pairID := res.Payload
 	res = stub.MockInvoke("2", [][]byte{[]byte("deletePair"), []byte(pairID)})
 	if res.Status != shim.OK {
@@ -645,7 +651,7 @@ func TestKidnerCC_ListActivePairsNominal(t *testing.T) {
 		t.FailNow()
 	}
 
-	res = stub.MockInvoke("3", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res = stub.MockInvoke("3", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pairID = res.Payload
 	res = stub.MockInvoke("4", [][]byte{[]byte("deactivatePair"), []byte(pairID)})
 	if res.Status != shim.OK {
@@ -654,7 +660,7 @@ func TestKidnerCC_ListActivePairsNominal(t *testing.T) {
 		t.FailNow()
 	}
 
-	res = stub.MockInvoke("5", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+	res = stub.MockInvoke("5", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 
 	res = stub.MockInvoke("6", [][]byte{[]byte("listActivePairs")})
 	if res.Status != shim.OK {
@@ -684,7 +690,7 @@ func TestKidnerCC_FindPairedMatchNominal(t *testing.T) {
 
 	// create 1st Pair D1,R1
 	res1 := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1),
-		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pair1ID := res1.Payload
 	if res1.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res1.Status), 10))
@@ -694,7 +700,7 @@ func TestKidnerCC_FindPairedMatchNominal(t *testing.T) {
 
 	// create 2nd Pair D2,R2
 	res2 := stub.MockInvoke("2", [][]byte{[]byte("createPair"), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE1),
-		[]byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pair2ID := res2.Payload
 	if res2.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res2.Status), 10))
@@ -724,6 +730,7 @@ func TestKidnerCC_FindPairedMatchNominal(t *testing.T) {
 		t.FailNow()
 	}
 
+	// retrieve the match and check its attributes
 	var match Match
 	err := json.Unmarshal(res.Payload, &match)
 	if err != nil {
@@ -780,7 +787,7 @@ func TestKidnerCC_FindPairedMatchEmpty(t *testing.T) {
 
 	// create 1st Pair D1,R1
 	res1 := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1),
-		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pair1ID := res1.Payload
 	if res1.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res1.Status), 10))
@@ -895,7 +902,7 @@ func TestKidnerCC_FindMatchCycleNominal(t *testing.T) {
 
 	// create 1st Pair D1,R1
 	res1 := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte("88"), []byte("o"), []byte("0"), []byte("A1,A2,B1,B2,DR1,DR2,DQ1,DQ2"), []byte("0"), []byte("true"), []byte("donor"),
-		[]byte("20"), []byte("b"), []byte("2"), []byte("A1,A2,B1,B2,DR1,DR2,DQ1,DQ2"), []byte("0"), []byte("true"), []byte("recipient"), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte("20"), []byte("b"), []byte("2"), []byte("A1,A2,B1,B2,DR1,DR2,DQ1,DQ2"), []byte("0"), []byte("true"), []byte("recipient"), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pair1ID := res1.Payload
 	if res1.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res1.Status), 10))
@@ -905,7 +912,7 @@ func TestKidnerCC_FindMatchCycleNominal(t *testing.T) {
 
 	// create 2nd Pair D2,R2
 	res2 := stub.MockInvoke("2", [][]byte{[]byte("createPair"), []byte("10"), []byte("b"), []byte("0"), []byte("A1,A2,B1,B2,DR1,DR2,DQ1,DQ2"), []byte("10"), []byte("true"), []byte("donor"),
-		[]byte("18"), []byte("ab"), []byte("0"), []byte("A0,A0,B42,B42,DR42,DR42,DQ42,DQ42"), []byte("12"), []byte("true"), []byte("recipient"), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte("18"), []byte("ab"), []byte("0"), []byte("A0,A0,B42,B42,DR42,DR42,DQ42,DQ42"), []byte("12"), []byte("true"), []byte("recipient"), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pair2ID := res2.Payload
 	if res2.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res2.Status), 10))
@@ -915,7 +922,7 @@ func TestKidnerCC_FindMatchCycleNominal(t *testing.T) {
 
 	// create 3rd Pair D3,R3
 	res3 := stub.MockInvoke("3", [][]byte{[]byte("createPair"), []byte("77"), []byte("a"), []byte("0"), []byte("A11,A22,B13,B24,DR15,DR26,DQ17,DQ28"), []byte("25"), []byte("true"), []byte("donor"),
-		[]byte("64"), []byte("b"), []byte("1"), []byte("A1,A2,B1,B2,DR1,DR2,DQ1,DQ2"), []byte("20"), []byte("true"), []byte("recipient"), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte("64"), []byte("b"), []byte("1"), []byte("A1,A2,B1,B2,DR1,DR2,DQ1,DQ2"), []byte("20"), []byte("true"), []byte("recipient"), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pair3ID := res3.Payload
 	if res3.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res3.Status), 10))
@@ -925,7 +932,7 @@ func TestKidnerCC_FindMatchCycleNominal(t *testing.T) {
 
 	// create 4th Pair D4,R4
 	res4 := stub.MockInvoke("4", [][]byte{[]byte("createPair"), []byte("18"), []byte("ab"), []byte("0"), []byte("A0,A0,B42,B42,DR42,DR42,DQ42,DQ42"), []byte("12"), []byte("true"), []byte("donor"),
-		[]byte("77"), []byte("a"), []byte("3"), []byte("A11,A22,B13,B24,DR15,DR26,DQ17,DQ28"), []byte("12"), []byte("true"), []byte("recipient"), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte("77"), []byte("a"), []byte("3"), []byte("A11,A22,B13,B24,DR15,DR26,DQ17,DQ28"), []byte("12"), []byte("true"), []byte("recipient"), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pair4ID := res4.Payload
 	if res4.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res4.Status), 10))
@@ -1237,21 +1244,21 @@ func TestKidnerCC_ApproveMatchNominal(t *testing.T) {
 	stub := shim.NewMockStub("kidner", scc)
 
 	// create Doctor
-	res := stub.MockInvoke("0", [][]byte{[]byte("createDoctor"), []byte("signature")})
-	if res.Status != shim.OK {
-		t.Log("bad status received, expected: 200; received:" + strconv.FormatInt(int64(res.Status), 10))
-		t.Log("response: " + string(res.Message))
-		t.FailNow()
-	}
-	if res.Payload == nil {
-		t.Log("createDoctor failed to create a doctor and get the doctor id")
-		t.FailNow()
-	}
-	DrID := res.Payload
+	// res := stub.MockInvoke("0", [][]byte{[]byte("createDoctor"), []byte("signature")})
+	// if res.Status != shim.OK {
+	// 	t.Log("bad status received, expected: 200; received:" + strconv.FormatInt(int64(res.Status), 10))
+	// 	t.Log("response: " + string(res.Message))
+	// 	t.FailNow()
+	// }
+	// if res.Payload == nil {
+	// 	t.Log("createDoctor failed to create a doctor and get the doctor id")
+	// 	t.FailNow()
+	// }
+	DrID := "DrID"
 
 	// create 1st Pair D1,R1
 	res1 := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1),
-		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pair1ID := res1.Payload
 	if res1.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res1.Status), 10))
@@ -1261,7 +1268,7 @@ func TestKidnerCC_ApproveMatchNominal(t *testing.T) {
 
 	// create 2nd Pair D2,R2
 	res2 := stub.MockInvoke("2", [][]byte{[]byte("createPair"), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE1),
-		[]byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	//pair2ID := res2.Payload
 	if res2.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res2.Status), 10))
@@ -1270,7 +1277,7 @@ func TestKidnerCC_ApproveMatchNominal(t *testing.T) {
 	}
 
 	// Pair1 searches for paired match => a match with pair2 is expected
-	res = stub.MockInvoke("3", [][]byte{[]byte("findPairedMatch"), []byte(pair1ID)})
+	res := stub.MockInvoke("3", [][]byte{[]byte("findPairedMatch"), []byte(pair1ID)})
 	matchID := res.Payload
 	if res.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res.Status), 10))
@@ -1278,23 +1285,15 @@ func TestKidnerCC_ApproveMatchNominal(t *testing.T) {
 		t.FailNow()
 	}
 
-	// approve match wrong number of arguments
-	res = stub.MockInvoke("6", [][]byte{[]byte("approveMatch"), []byte(DrID), []byte("signature"), []byte("signature"), []byte(matchID)})
-	if res.Status != shim.ERROR {
-		t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
-		t.Log("response: " + string(res.Message))
-		t.FailNow()
-	}
-
 	// approve match bad signature
-	res = stub.MockInvoke("7", [][]byte{[]byte("approveMatch"), []byte(DrID), []byte("badsignature"), []byte(matchID)})
-	if res.Status != shim.ERROR {
-		t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
-		t.Log("response: " + string(res.Message))
-		t.FailNow()
-	}
+	// res = stub.MockInvoke("7", [][]byte{[]byte("approveMatch"), []byte(DrID), []byte("badsignature"), []byte(matchID)})
+	// if res.Status != shim.ERROR {
+	// 	t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
+	// 	t.Log("response: " + string(res.Message))
+	// 	t.FailNow()
+	// }
 
-	// doctor approves match
+	// doctor approves match : DrID and his signature needed
 	res = stub.MockInvoke("4", [][]byte{[]byte("approveMatch"), []byte(DrID), []byte("signature"), []byte(matchID)})
 	matchID = res.Payload
 
@@ -1329,6 +1328,27 @@ func TestKidnerCC_ApproveMatchNominal(t *testing.T) {
 		t.FailNow()
 	}
 
+	if match.DrSig != "signature" {
+		t.Error("incorrect Dr signature")
+		t.FailNow()
+	}
+
+}
+
+// =====================================================================================================================
+// Approve match : Incorrect number of args
+// =====================================================================================================================
+func TestKidnerCC_ApproveMatchIncorrectArgs(t *testing.T) {
+	scc := new(KidnerCC)
+	stub := shim.NewMockStub("kidner", scc)
+
+	// approve match wrong number of arguments
+	res := stub.MockInvoke("1", [][]byte{[]byte("approveMatch"), []byte("DrID"), []byte("signature"), []byte("signature"), []byte("matchID")})
+	if res.Status != shim.ERROR {
+		t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
+		t.Log("response: " + string(res.Message))
+		t.FailNow()
+	}
 }
 
 // =====================================================================================================================
@@ -1339,21 +1359,21 @@ func TestKidnerCC_RefuseMatchNominal(t *testing.T) {
 	stub := shim.NewMockStub("kidner", scc)
 
 	// create Doctor
-	res := stub.MockInvoke("0", [][]byte{[]byte("createDoctor"), []byte("signature")})
-	if res.Status != shim.OK {
-		t.Log("bad status received, expected: 200; received:" + strconv.FormatInt(int64(res.Status), 10))
-		t.Log("response: " + string(res.Message))
-		t.FailNow()
-	}
-	if res.Payload == nil {
-		t.Log("createDoctor failed to create a doctor and get the doctor id")
-		t.FailNow()
-	}
-	DrID := res.Payload
+	// res := stub.MockInvoke("0", [][]byte{[]byte("createDoctor"), []byte("signature")})
+	// if res.Status != shim.OK {
+	// 	t.Log("bad status received, expected: 200; received:" + strconv.FormatInt(int64(res.Status), 10))
+	// 	t.Log("response: " + string(res.Message))
+	// 	t.FailNow()
+	// }
+	// if res.Payload == nil {
+	// 	t.Log("createDoctor failed to create a doctor and get the doctor id")
+	// 	t.FailNow()
+	// }
+	DrID := "DrID"
 
 	// create 1st Pair D1,R1
 	res1 := stub.MockInvoke("1", [][]byte{[]byte("createPair"), []byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE1),
-		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	pair1ID := res1.Payload
 	if res1.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res1.Status), 10))
@@ -1363,7 +1383,7 @@ func TestKidnerCC_RefuseMatchNominal(t *testing.T) {
 
 	// create 2nd Pair D2,R2
 	res2 := stub.MockInvoke("2", [][]byte{[]byte("createPair"), []byte(AGE2), []byte(BLOODTYPE2), []byte(MEDICALURGENCY2), []byte(HLAs2), []byte(PRA2), []byte(ELIGIBLE2), []byte(TYPE1),
-		[]byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD)})
+		[]byte(AGE1), []byte(BLOODTYPE1), []byte(MEDICALURGENCY1), []byte(HLAs1), []byte(PRA1), []byte(ELIGIBLE1), []byte(TYPE2), []byte("DrID"), []byte(SIGR), []byte(SIGD), []byte(DRSIG)})
 	//pair2ID := res2.Payload
 	if res2.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res2.Status), 10))
@@ -1372,7 +1392,7 @@ func TestKidnerCC_RefuseMatchNominal(t *testing.T) {
 	}
 
 	// Pair1 searches for paired match => a match with pair2 is expected
-	res = stub.MockInvoke("3", [][]byte{[]byte("findPairedMatch"), []byte(pair1ID)})
+	res := stub.MockInvoke("3", [][]byte{[]byte("findPairedMatch"), []byte(pair1ID)})
 	matchID := res.Payload
 	if res.Status != shim.OK {
 		t.Log("bad status received, expected: 200 received:" + strconv.FormatInt(int64(res.Status), 10))
@@ -1380,21 +1400,13 @@ func TestKidnerCC_RefuseMatchNominal(t *testing.T) {
 		t.FailNow()
 	}
 
-	// approve match wrong number of arguments
-	res = stub.MockInvoke("6", [][]byte{[]byte("refuseMatch"), []byte(DrID), []byte("signature"), []byte("signature"), []byte(matchID)})
-	if res.Status != shim.ERROR {
-		t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
-		t.Log("response: " + string(res.Message))
-		t.FailNow()
-	}
-
-	// approve match bad signature
-	res = stub.MockInvoke("7", [][]byte{[]byte("refuseMatch"), []byte(DrID), []byte("badsignature"), []byte(matchID)})
-	if res.Status != shim.ERROR {
-		t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
-		t.Log("response: " + string(res.Message))
-		t.FailNow()
-	}
+	// refuse match bad signature
+	// res = stub.MockInvoke("7", [][]byte{[]byte("refuseMatch"), []byte(DrID), []byte("badsignature"), []byte(matchID)})
+	// if res.Status != shim.ERROR {
+	// 	t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
+	// 	t.Log("response: " + string(res.Message))
+	// 	t.FailNow()
+	// }
 
 	// doctor refuses match
 	res = stub.MockInvoke("4", [][]byte{[]byte("refuseMatch"), []byte(DrID), []byte("signature"), []byte(matchID)})
@@ -1430,7 +1442,22 @@ func TestKidnerCC_RefuseMatchNominal(t *testing.T) {
 		t.Error("incorrect endorcing Dr")
 		t.FailNow()
 	}
+}
 
+// =====================================================================================================================
+// Refuse match : Incorrect args
+// =====================================================================================================================
+func TestKidnerCC_RefuseMatchIncorrectArgs(t *testing.T) {
+	scc := new(KidnerCC)
+	stub := shim.NewMockStub("kidner", scc)
+
+	// refuse match wrong number of arguments
+	res := stub.MockInvoke("1", [][]byte{[]byte("refuseMatch"), []byte("DrID"), []byte("signature"), []byte("signature"), []byte("matchID")})
+	if res.Status != shim.ERROR {
+		t.Log("bad status received, expected: 500 received:" + strconv.FormatInt(int64(res.Status), 10))
+		t.Log("response: " + string(res.Message))
+		t.FailNow()
+	}
 }
 
 // =====================================================================================================================

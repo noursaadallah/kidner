@@ -36,9 +36,9 @@ func Initialize() (*FabricSetup, error) {
 
 		// Chaincode parameters
 		ChaincodeId:      "kidnerCC",
-		ChaincodeVersion: "v1.0.0",
+		ChaincodeVersion: "v1.0.1",
 		ChaincodeGoPath:  os.Getenv("GOPATH"),
-		ChaincodePath:    "github.com/noursaadallah/kidner/chaincode",
+		ChaincodePath:    "github.com/noursaadallah/kidner/fixtures/src",
 	}
 
 	// Initialize the config
