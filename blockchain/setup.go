@@ -44,7 +44,7 @@ func Initialize() (*FabricSetup, error) {
 	// Initialize the config
 	// This will read the config.yaml, in order to tell to
 	// the SDK all options and how contact a peer
-	configImpl, err := fsgConfig.InitConfig("config.yaml")
+	configImpl, err := fsgConfig.InitConfig("fixtures/config/config.yaml")
 	if err != nil {
 		return nil, fmt.Errorf("Initialize the config failed: %v", err)
 	}
