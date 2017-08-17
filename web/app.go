@@ -22,6 +22,8 @@ func Serve(app *controllers.Application) {
 	http.HandleFunc("/deletePair.html", app.DeletePairHandler)
 	http.HandleFunc("/findPairedMatch.html", app.FindPairedMatchHandler)
 	http.HandleFunc("/listMatches.html", app.ListMatchesHandler)
+	http.HandleFunc("/approveMatch.html", app.ApproveMatchHandler)
+	http.HandleFunc("/refuseMatch.html", app.RefuseMatchHandler)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		http.Redirect(w, r, "/listActivePairs.html", http.StatusTemporaryRedirect)
