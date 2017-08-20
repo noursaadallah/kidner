@@ -9,7 +9,7 @@ import (
 )
 
 // =====================================================================================================
-// invoke a SC function and return the Tx ID
+// invoke a SC function and return the Transaction ID
 // args contains the function name + its arguments
 // =====================================================================================================
 func (setup *FabricSetup) invoke(args []string) (string, error) {
@@ -56,7 +56,7 @@ func (setup *FabricSetup) invoke(args []string) (string, error) {
 }
 
 // =====================================================================================================
-// query : invoke a SC function and return the result ( []byte = JSON )
+// query : invoke a SC query function and return the result ( []byte = JSON )
 // args contains function name + arguments (if any)
 // =====================================================================================================
 func (setup *FabricSetup) query(args []string) ([]byte, error) {

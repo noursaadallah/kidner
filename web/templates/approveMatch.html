@@ -4,6 +4,13 @@
 <h1>Approve match</h1>
 <br>
 
+{{if .Error}} 
+<div class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      {{.Error}}
+  </div>
+{{end}}
+
 {{ if .Response }}
 {{ if .Success }}
 <div class="alert alert-success alert-dismissable" role="alert">

@@ -11,10 +11,12 @@ func (app *Application) DeactivatePairHandler(w http.ResponseWriter, r *http.Req
 		PairID   string
 		Success  bool
 		Response bool
+		Error    string
 	}{
 		PairID:   "nil", // PairID != "nil" means Pair is not empty
 		Success:  false,
 		Response: false,
+		Error:    "",
 	}
 
 	// request came from getPair.html or listPairs.html => deactivate the pair
@@ -23,7 +25,10 @@ func (app *Application) DeactivatePairHandler(w http.ResponseWriter, r *http.Req
 		_pairID, err := app.Fabric.DeactivatePair(pairID)
 		if err != nil {
 			log.Error(err.Error())
-			http.Error(w, "Unable to query the ID in the blockchain", 500)
+			//http.Error(w, "Unable to query the ID in the blockchain", 500)
+			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			renderTemplate(w, r, "deactivatePair.html", data)
+			return
 		}
 
 		data.PairID = _pairID

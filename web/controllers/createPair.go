@@ -2,6 +2,8 @@ package controllers
 
 import (
 	"net/http"
+
+	"github.com/cloudflare/cfssl/log"
 )
 
 func (app *Application) CreatePairHandler(w http.ResponseWriter, r *http.Request) {
@@ -9,10 +11,12 @@ func (app *Application) CreatePairHandler(w http.ResponseWriter, r *http.Request
 		TransactionId string
 		Success       bool
 		Response      bool
+		Error         string
 	}{
 		TransactionId: "",
 		Success:       false,
 		Response:      false,
+		Error:         "",
 	}
 	if r.FormValue("submitted") == "true" {
 		// parse and retrieve form elements
@@ -67,7 +71,11 @@ func (app *Application) CreatePairHandler(w http.ResponseWriter, r *http.Request
 
 		txid, err := app.Fabric.CreatePair(args)
 		if err != nil {
-			http.Error(w, "Unable to write state in the blockchain"+err.Error(), 500)
+			log.Error(err.Error())
+			//http.Error(w, "Unable to write state in the blockchain"+err.Error(), 500)
+			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			renderTemplate(w, r, "createPair.html", data)
+			return
 		}
 		data.TransactionId = txid
 		data.Success = true

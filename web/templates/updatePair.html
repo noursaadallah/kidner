@@ -2,6 +2,13 @@
 
 <h1>Update Pair :</h1>
 
+{{if .Error}} 
+<div class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      {{.Error}}
+  </div>
+{{end}}
+
 {{ if .GotPair }} 
 <div class="alert alert-success alert-dismissable">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -306,7 +313,7 @@
         <span class="badge badge-default badge-pill pull-right">?</span>
     </div>
     <div class="col-lg-6">
-        <input type="text" class="form-control" id="DrID" placeholder="Dr-ID" name="DrID" value={{.Pair.DrID}} required>
+        <input type="text" class="form-control" id="DrID" placeholder="Dr-ID" name="DrID" required {{if .Pair.DrID}} value={{.Pair.DrID}} {{end}} >
     </div>
     </span>
 

@@ -14,22 +14,30 @@ func (app *Application) ListActivePairsHandler(w http.ResponseWriter, r *http.Re
 		Pairs    []models.Pair
 		Success  bool
 		Response bool
+		Error    string
 	}{
 		Pairs:    make([]models.Pair, 0),
 		Success:  false,
 		Response: false,
+		Error:    "",
 	}
 
 	pairsAsBytes, err := app.Fabric.ListActivePairs()
 	if err != nil {
 		log.Error(err.Error())
-		http.Error(w, "Unable to query the ID in the blockchain", 500)
+		//http.Error(w, "Unable to query the ID in the blockchain", 500)
+		data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+		renderTemplate(w, r, "listActivePairs.html", data)
+		return
 	}
 
 	err = json.Unmarshal(pairsAsBytes, &data.Pairs)
 	if err != nil {
 		log.Error(err.Error())
-		http.Error(w, "Get incorrect entity", 500)
+		//http.Error(w, "Get incorrect entity", 500)
+		data.Error = "Error unmarshalling slice of Pairs : " + err.Error()
+		renderTemplate(w, r, "listActivePairs.html", data)
+		return
 	}
 	data.Success = true
 	data.Response = true

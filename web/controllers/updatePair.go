@@ -15,12 +15,14 @@ func (app *Application) UpdatePairHandler(w http.ResponseWriter, r *http.Request
 		Success  bool
 		Response bool
 		GotPair  bool
+		Error    string
 	}{
 		PairID:   "nil", // PairID != "nil" means Pair is not empty
 		Pair:     *new(models.Pair),
 		Success:  false,
 		Response: false,
 		GotPair:  false,
+		Error:    "",
 	}
 
 	// request came from getPair.html or listPairs.html => get pair and display data
@@ -29,13 +31,20 @@ func (app *Application) UpdatePairHandler(w http.ResponseWriter, r *http.Request
 		ID := r.FormValue("hiddenPairID")
 		valAsBytes, err := app.Fabric.GetPair(ID)
 		if err != nil {
-			http.Error(w, "Unable to query the ID in the blockchain", 500)
+			log.Error(err.Error())
+			//http.Error(w, "Unable to query the ID in the blockchain", 500)
+			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			renderTemplate(w, r, "updatePair.html", data)
+			return
 		}
 
 		err = json.Unmarshal(valAsBytes, &data.Pair)
 		if err != nil {
 			log.Error(err.Error())
-			http.Error(w, "Get incorrect entity", 500)
+			//http.Error(w, "Get incorrect entity", 500)
+			data.Error = "Error unmarshalling Pair entity : " + err.Error()
+			renderTemplate(w, r, "updatePair.html", data)
+			return
 		}
 		data.GotPair = true
 		data.PairID = data.Pair.ID
@@ -89,7 +98,11 @@ func (app *Application) UpdatePairHandler(w http.ResponseWriter, r *http.Request
 
 		txid, err := app.Fabric.UpdatePair(args)
 		if err != nil {
-			http.Error(w, "Unable to write state in the blockchain"+err.Error(), 500)
+			log.Error(err.Error())
+			//http.Error(w, "Unable to write state in the blockchain"+err.Error(), 500)
+			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			renderTemplate(w, r, "updatePair.html", data)
+			return
 		}
 		data.PairID = txid
 		data.Success = true

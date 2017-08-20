@@ -2,6 +2,13 @@
 
 <h1>List Matches</h1>
 
+{{if .Error}} 
+<div class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      {{.Error}}
+  </div>
+{{end}}
+
 {{ if .Response }} {{ if .Success }} {{ if .Matches }}
 
 <!-- display pairs information -->
@@ -53,7 +60,8 @@
                 <strong> Date : </strong> {{.CreateDate.Format "02/01/2006 15:04 MST"}} <br>
                 <strong> Match ID : </strong> {{.ID}} <br>
                 <strong> Match Result : </strong> A paired-exchange-match was found between 2 pairs <br>
-                <strong> IDs : </strong> {{ $matchedPairs0}}
+                <strong> IDs : </strong> {{ $matchedPairs0}} <br>
+                <strong> Status : </strong> {{if .EndorcingDr}} {{if .Approved}} Approved by Dr with ID : {{.EndorcingDr}} {{else}}Refused by Dr, ID :{{.EndorcingDr}}{{end}} {{else}} Pending  
                 </p>
                 <div class="col-lg-1"></div>
                 <div class="col-lg-4">
@@ -71,7 +79,7 @@
                         <button type="submit" class="btn btn-danger btn-block"><strong> Refuse match </strong></button>
                     </form>
                 </div>
-                 <div class="col-lg-1"></div> 
+                 <div class="col-lg-1"></div> {{end}}
             </div>
         {{end}} 
         

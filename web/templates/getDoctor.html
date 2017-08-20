@@ -4,6 +4,12 @@
 
 <h1>Get Doctor</h1>
 
+{{if .Error}} 
+<div class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      {{.Error}}
+  </div>
+{{end}}
 
 <form class="form-inline" action="getDoctor.html" method="post">
     <div class="form-group">

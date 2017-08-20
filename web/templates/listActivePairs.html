@@ -2,6 +2,13 @@
 
 <h1>List Active Pairs</h1>
 
+{{if .Error}} 
+<div class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      {{.Error}}
+  </div>
+{{end}}
+
 {{ if .Response }} {{ if .Success }} {{ if .Pairs }}
 
 <div class="alert alert-success alert-dismissable">

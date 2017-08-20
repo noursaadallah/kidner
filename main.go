@@ -38,7 +38,7 @@ func main() {
 	}
 
 	// Initialize the Fabric SDK
-	// uses config.yaml with a relative path
+	// blockchain.Initialize() uses config.yaml with a relative path
 	fabricSdk, err := blockchain.Initialize()
 	if err != nil {
 		fmt.Printf("Unable to initialize the Fabric SDK: %v\n", err)

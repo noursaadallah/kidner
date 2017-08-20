@@ -14,22 +14,30 @@ func (app *Application) ListMatchesHandler(w http.ResponseWriter, r *http.Reques
 		Matches  []models.Match
 		Success  bool
 		Response bool
+		Error    string
 	}{
 		Matches:  make([]models.Match, 0),
 		Success:  false,
 		Response: false,
+		Error:    "",
 	}
 
 	matchesAsBytes, err := app.Fabric.ListMatches()
 	if err != nil {
 		log.Error(err.Error())
-		http.Error(w, "Unable to query the ID in the blockchain", 500)
+		//http.Error(w, "Unable to query the ID in the blockchain", 500)
+		data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+		renderTemplate(w, r, "listMatches.html", data)
+		return
 	}
 
 	err = json.Unmarshal(matchesAsBytes, &data.Matches)
 	if err != nil {
 		log.Error(err.Error())
-		http.Error(w, "Get incorrect entity", 500)
+		//http.Error(w, "Get incorrect entity", 500)
+		data.Error = "Error unmarshalling slice of Matches : " + err.Error()
+		renderTemplate(w, r, "listMatches.html", data)
+		return
 	}
 	data.Success = true
 	data.Response = true

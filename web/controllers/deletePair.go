@@ -11,10 +11,12 @@ func (app *Application) DeletePairHandler(w http.ResponseWriter, r *http.Request
 		PairID   string
 		Success  bool
 		Response bool
+		Error    string
 	}{
 		PairID:   "nil",
 		Success:  false,
 		Response: false,
+		Error:    "",
 	}
 
 	// request came from getPair.html or listPairs.html => delete the pair
@@ -23,7 +25,10 @@ func (app *Application) DeletePairHandler(w http.ResponseWriter, r *http.Request
 		_pairID, err := app.Fabric.DeletePair(pairID)
 		if err != nil {
 			log.Error(err.Error())
-			http.Error(w, "Unable to query the ID in the blockchain", 500)
+			//http.Error(w, "Unable to query the ID in the blockchain", 500)
+			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			renderTemplate(w, r, "deletePair.html", data)
+			return
 		}
 
 		data.PairID = _pairID

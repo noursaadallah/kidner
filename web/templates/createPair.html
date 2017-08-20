@@ -2,6 +2,13 @@
 
 <h1>Create Pair :</h1>
 
+{{if .Error}} 
+<div class="alert alert-danger alert-dismissable">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      {{.Error}}
+  </div>
+{{end}}
+
 {{ if .Response }} {{ if .Success }}
 <div class="alert alert-success alert-dismissable">
   <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
@@ -339,4 +346,4 @@
 
 <br>
 <br>
-<a href="home.html">Back to Home</a> {{end}}
+<a href="listActivePairs.html">Back to Home</a> {{end}}

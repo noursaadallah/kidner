@@ -12,7 +12,6 @@ func Serve(app *controllers.Application) {
 	http.Handle("/assets/", http.StripPrefix("/assets/", fs))
 
 	http.HandleFunc("/listActivePairs.html", app.ListActivePairsHandler)
-	http.HandleFunc("/request.html", app.RequestHandler)
 	http.HandleFunc("/createDoctor.html", app.CreateDoctorHandler)
 	http.HandleFunc("/createPair.html", app.CreatePairHandler)
 	http.HandleFunc("/getPair.html", app.GetPairHandler)

@@ -13,23 +13,32 @@ func (app *Application) GetPairHandler(w http.ResponseWriter, r *http.Request) {
 		Pair     models.Pair
 		Success  bool
 		Response bool
+		Error    string
 	}{
 		Pair:     *new(models.Pair),
 		Success:  false,
 		Response: false,
+		Error:    "",
 	}
 
 	if r.FormValue("submitted") == "true" {
 		ID := r.FormValue("ID")
 		valAsBytes, err := app.Fabric.GetPair(ID)
 		if err != nil {
-			http.Error(w, "Unable to query the ID in the blockchain", 500)
+			//http.Error(w, "Unable to query the ID in the blockchain", 500)
+			log.Error(err.Error())
+			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			renderTemplate(w, r, "getPair.html", data)
+			return
 		}
 
 		err = json.Unmarshal(valAsBytes, &data.Pair)
 		if err != nil {
 			log.Error(err.Error())
-			http.Error(w, "Get incorrect entity or result is empty", 500)
+			//http.Error(w, "Get incorrect entity or result is empty", 500)
+			data.Error = "Error unmarshalling Pair entity : " + err.Error()
+			renderTemplate(w, r, "getPair.html", data)
+			return
 		}
 		data.Success = true
 		data.Response = true
