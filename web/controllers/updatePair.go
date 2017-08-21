@@ -107,6 +107,12 @@ func (app *Application) UpdatePairHandler(w http.ResponseWriter, r *http.Request
 		data.PairID = txid
 		data.Success = true
 		data.Response = true
+
+		// After the pair is updated look for a match cycle automatically
+		_, err = app.Fabric.FindMatchCycle()
+		if err != nil {
+			http.Error(w, "Error while looking for a match cycle "+err.Error(), 500)
+		}
 	}
 	renderTemplate(w, r, "updatePair.html", data)
 }

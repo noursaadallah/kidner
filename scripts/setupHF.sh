@@ -5,34 +5,52 @@
 	
     echo "setup fabric to version v1.0.0-rc1"
 	echo ""
-	mkdir -p $GOPATH/src/github.com/hyperledger
-	cd $GOPATH/src/github.com/hyperledger && git clone https://github.com/hyperledger/fabric.git && cd fabric && git checkout v1.0.0-rc1
-	echo ""
-	echo "setup fabric-ca to version v1.0.0-rc1"
-	echo ""
-	cd $GOPATH/src/github.com/hyperledger && git clone https://github.com/hyperledger/fabric-ca.git && cd fabric-ca && git checkout v1.0.0-rc1
 
-	echo ""	
-    echo "setup fabric-sdk-go to commit 85fa3101eb4694d464003c3a900672d632f17833"
-	echo ""
-	cd $GOPATH/src/github.com/hyperledger && git clone https://github.com/hyperledger/fabric-sdk-go.git && cd fabric-sdk-go && git checkout 85fa3101eb4694d464003c3a900672d632f17833
+	if [ -d "$GOPATH/src/github.com/hyperledger/fabric"]
+		cd $GOPATH/src/github.com/hyperledger/fabric && git checkout v1.0.0-rc1
+	fi
+	if [ -d "$GOPATH/src/github.com/hyperledger/fabric-ca"]
+		cd $GOPATH/src/github.com/hyperledger/fabric-ca && git checkout v1.0.0-rc1
+	fi
+	if [ -d "$GOPATH/src/github.com/hyperledger/fabric-sdk-go"]
+		cd $GOPATH/src/github.com/hyperledger/fabric-sdk-go && git checkout 85fa3101eb4694d464003c3a900672d632f17833
+		echo "installing fabric-sdk-go dependencies"
+		echo ""
+		cd $GOPATH/src/github.com/hyperledger/fabric-sdk-go && make
+	fi
+
 	
+	if [! -d "$GOPATH/src/github.com/hyperledger"]
+		mkdir -p $GOPATH/src/github.com/hyperledger
+		cd $GOPATH/src/github.com/hyperledger && git clone https://github.com/hyperledger/fabric.git && cd fabric && git checkout v1.0.0-rc1
+		echo ""
+		echo "setup fabric-ca to version v1.0.0-rc1"
+		echo ""
+		cd $GOPATH/src/github.com/hyperledger && git clone https://github.com/hyperledger/fabric-ca.git && cd fabric-ca && git checkout v1.0.0-rc1
+
+		echo ""	
+		echo "setup fabric-sdk-go to commit 85fa3101eb4694d464003c3a900672d632f17833"
+		echo ""
+		cd $GOPATH/src/github.com/hyperledger && git clone https://github.com/hyperledger/fabric-sdk-go.git && cd fabric-sdk-go && git checkout 85fa3101eb4694d464003c3a900672d632f17833
+		
+		echo ""
+		echo "installing fabric-sdk-go dependencies"
+		echo ""
+		cd $GOPATH/src/github.com/hyperledger/fabric-sdk-go && make
+		
+		echo ""
+		echo "fabric & fabric-ca & fabric-sdk-go setup done"
+		echo ""
+	fi
+
 	echo ""
-    echo "installing fabric & fabric-ca packages"
+	echo "installing fabric & fabric-ca packages"
 	echo ""
 	sudo apt install libltdl-dev
 	go get github.com/hyperledger/fabric-sdk-go/pkg/fabric-client
 	go get github.com/hyperledger/fabric-sdk-go/pkg/fabric-ca-client
-	
+
 	echo ""
-    echo "installing fabric-sdk-go dependencies"
-	echo ""
-	cd $GOPATH/src/github.com/hyperledger/fabric-sdk-go && make
-	
-	echo ""
-    echo "fabric & fabric-ca & fabric-sdk-go setup done"
-	echo ""
-	
     echo "setup external libs"
 	echo ""
 	go get -u github.com/kardianos/govendor
