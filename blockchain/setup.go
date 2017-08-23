@@ -9,6 +9,7 @@ import (
 	"github.com/hyperledger/fabric-sdk-go/pkg/fabric-client/events"
 	fcutil "github.com/hyperledger/fabric-sdk-go/pkg/util"
 	bccspFactory "github.com/hyperledger/fabric/bccsp/factory"
+	"github.com/noursaadallah/kidner/settings"
 )
 
 // FabricSetup implementation
@@ -28,23 +29,31 @@ type FabricSetup struct {
 // Initialize reads configuration from file and sets up client, chain and event hub
 func Initialize() (*FabricSetup, error) {
 
+	// Load config file containing parameters for FabricSetup initialization
+	var fs settings.FabricSettings
+	fs, err := settings.GetFabricSettings()
+	if err != nil {
+		fmt.Println("error loading config for FabricSetup init : " + err.Error())
+		return nil, err
+	}
+
 	// Add parameters for the initialization
 	setup := FabricSetup{
 		// Channel parameters
-		ChannelId:     "mychannel",
-		ChannelConfig: "fixtures/channel/mychannel.tx",
+		ChannelId:     fs.ChannelId,
+		ChannelConfig: fs.ChannelConfig,
 
 		// Chaincode parameters
-		ChaincodeId:      "kidnerCC",
-		ChaincodeVersion: "v1.0.1",
+		ChaincodeId:      fs.ChaincodeId,
+		ChaincodeVersion: fs.ChaincodeVersion,
 		ChaincodeGoPath:  os.Getenv("GOPATH"),
-		ChaincodePath:    "github.com/noursaadallah/kidner/fixtures/src",
+		ChaincodePath:    fs.ChaincodePath,
 	}
 
 	// Initialize the config
 	// This will read the config.yaml, in order to tell to
 	// the SDK all options and how contact a peer
-	configImpl, err := fsgConfig.InitConfig("fixtures/config/config.yaml")
+	configImpl, err := fsgConfig.InitConfig(fs.SDKConfig)
 	if err != nil {
 		return nil, fmt.Errorf("Initialize the config failed: %v", err)
 	}
@@ -59,7 +68,7 @@ func Initialize() (*FabricSetup, error) {
 	// This will make a user access (here the admin) to interact with the network
 	// To do so, this will contact the Fabric CA to check if the user has access
 	// and give it to him (enrollment)
-	client, err := fcutil.GetClient("admin", "adminpw", "/tmp/enroll_user", configImpl)
+	client, err := fcutil.GetClient(fs.AdminName, fs.AdminPwd, fs.StateStorePath, configImpl)
 	if err != nil {
 		return nil, fmt.Errorf("Create client failed: %v", err)
 	}
@@ -78,9 +87,9 @@ func Initialize() (*FabricSetup, error) {
 	// The authentication will be made with local certificates
 	ordererUser, err := fcutil.GetPreEnrolledUser(
 		client,
-		"ordererOrganizations/example.com/users/Admin@example.com/keystore",
-		"ordererOrganizations/example.com/users/Admin@example.com/signcerts",
-		"ordererAdmin",
+		fs.OrdKeyDir,
+		fs.OrdCertDir,
+		fs.OrdUsername,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to get the orderer user failed: %v", err)
@@ -90,9 +99,9 @@ func Initialize() (*FabricSetup, error) {
 	// The authentication will be made with local certificates
 	orgUser, err := fcutil.GetPreEnrolledUser(
 		client,
-		"peerOrganizations/org1.example.com/users/Admin@org1.example.com/keystore",
-		"peerOrganizations/org1.example.com/users/Admin@org1.example.com/signcerts",
-		"peerorg1Admin",
+		fs.OrgKeyDir,
+		fs.OrgCertDir,
+		fs.OrgUsername,
 	)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to get the organisation user failed: %v", err)

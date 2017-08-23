@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/noursaadallah/kidner/settings"
 	"github.com/noursaadallah/kidner/web/controllers"
 )
 
@@ -28,6 +29,16 @@ func Serve(app *controllers.Application) {
 		http.Redirect(w, r, "/listActivePairs.html", http.StatusTemporaryRedirect)
 	})
 
-	fmt.Println("Listening (http://localhost:3000/) ...")
-	http.ListenAndServe(":3000", nil)
+	var ws settings.WebSettings
+
+	ws, err := settings.GetWebSettings()
+	if err != nil {
+		fmt.Println(err.Error())
+		fmt.Println("Error loading web server config - web server not starting ")
+		return
+	}
+
+	address := ws.Address + ":" + ws.Port
+	fmt.Println("Listening (http://" + address + "/) ...")
+	http.ListenAndServe(address, nil)
 }
