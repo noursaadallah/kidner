@@ -4,7 +4,7 @@
 
 [Chaincode]
 	Id =     "kidnerCC"
-	Version= "v1.0.1"
+	Version= "v1.0.3"
 	Path= "github.com/noursaadallah/kidner/fixtures/src"
 
 [SDKConfig]

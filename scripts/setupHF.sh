@@ -17,9 +17,9 @@
 	if [ -d "$GOPATH/src/github.com/hyperledger/fabric-sdk-go" ]
 	then
 		cd $GOPATH/src/github.com/hyperledger/fabric-sdk-go && git checkout 85fa3101eb4694d464003c3a900672d632f17833
-		# echo "installing fabric-sdk-go dependencies"
-		# echo ""
-		# cd $GOPATH/src/github.com/hyperledger/fabric-sdk-go && make
+		echo "installing fabric-sdk-go dependencies"
+		echo ""
+		cd $GOPATH/src/github.com/hyperledger/fabric-sdk-go && make
 	fi
 
 	

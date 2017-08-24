@@ -274,10 +274,15 @@ func updatePair(stub shim.ChaincodeStubInterface, args []string) pb.Response {
 		return shim.Error(err.Error())
 	}
 
-	// update fields
-	pair.Donor = *donor
-	pair.Recipient = *recipient
-	pair.Active = true // pair becomes active again upon update
+	// keep fields that don't change
+	id := pair.ID
+	drId := pair.DrID
+	drSig := pair.DrSig
+	// update pair
+	pair = recipient.Match(*donor)
+	pair.ID = id
+	pair.DrID = drId
+	pair.DrSig = drSig
 
 	jsonP, err := json.Marshal(pair)
 	if err != nil {
