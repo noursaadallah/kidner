@@ -60,5 +60,5 @@
 	go get -u github.com/spf13/viper
 	go get -u github.com/kardianos/govendor
 	# make govendor executable just in case $PATH doesn't include $GOPATH/bin
-	cp $GOPATH/bin/govendor usr/local/bin/ 
+	cp $GOPATH/bin/govendor /usr/local/bin/ 
 	cd $GOPATH/src/github.com/noursaadallah/kidner && govendor init && govendor add +external
