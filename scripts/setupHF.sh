@@ -60,3 +60,11 @@
 		cp $GOPATH/bin/govendor /usr/local/bin/ 
 		cd $GOPATH/src/github.com/noursaadallah/kidner && govendor init && govendor add +external
 	fi
+
+	echo ""
+	echo "setup external libs"
+	echo ""
+	go get -u github.com/spf13/viper
+	go get -u github.com/kardianos/govendor
+	cp $GOPATH/bin/govendor /usr/local/bin/
+	cd $GOPATH/src/github.com/noursaadallah/kidner && govendor init && govendor add +external
