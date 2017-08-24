@@ -6,15 +6,15 @@
     echo "setup fabric to version v1.0.0-rc1"
 	echo ""
 
-	if [ -d "$GOPATH/src/github.com/hyperledger/fabric"]
+	if [ -d "$GOPATH/src/github.com/hyperledger/fabric" ]
 	then
 		cd $GOPATH/src/github.com/hyperledger/fabric && git checkout v1.0.0-rc1
 	fi
-	if [ -d "$GOPATH/src/github.com/hyperledger/fabric-ca"]
+	if [ -d "$GOPATH/src/github.com/hyperledger/fabric-ca" ]
 	then
 		cd $GOPATH/src/github.com/hyperledger/fabric-ca && git checkout v1.0.0-rc1
 	fi
-	if [ -d "$GOPATH/src/github.com/hyperledger/fabric-sdk-go"]
+	if [ -d "$GOPATH/src/github.com/hyperledger/fabric-sdk-go" ]
 	then
 		cd $GOPATH/src/github.com/hyperledger/fabric-sdk-go && git checkout 85fa3101eb4694d464003c3a900672d632f17833
 		echo "installing fabric-sdk-go dependencies"
@@ -23,7 +23,7 @@
 	fi
 
 	
-	if [! -d "$GOPATH/src/github.com/hyperledger"]
+	if [ ! -d "$GOPATH/src/github.com/hyperledger" ]
 	then
 		mkdir -p $GOPATH/src/github.com/hyperledger
 		cd $GOPATH/src/github.com/hyperledger && git clone https://github.com/hyperledger/fabric.git && cd fabric && git checkout v1.0.0-rc1
