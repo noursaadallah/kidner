@@ -12,11 +12,11 @@
 			echo "docker v17.x installed"
 		else
 			echo "installing docker ..."
-		sudo apt install docker.io
+		sudo apt-get update && sudo apt install docker.io
 		fi
 	else
 		echo "installing docker ..."
-		sudo apt install docker.io
+		sudo apt-get update && sudo apt install docker.io
 	fi 
 		
 		# test if docker-compose 1.14.x installed
@@ -29,11 +29,11 @@
 			echo "docker-compose v1.14.x installed"
 		else
 			echo "installing docker-compose ..."
-		sudo apt install docker-compose
+		sudo apt-get update && sudo apt install docker-compose
 		fi
 	else
 		echo "installing docker-compose ..."
-		sudo apt install docker-compose
+		sudo apt-get update && sudo apt install docker-compose
 	fi 
 		
 		echo "configure docker user to current user"
