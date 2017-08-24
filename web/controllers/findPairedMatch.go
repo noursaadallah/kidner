@@ -26,7 +26,7 @@ func (app *Application) FindPairedMatchHandler(w http.ResponseWriter, r *http.Re
 		if err != nil {
 			//http.Error(w, "Unable to invoke FindPairedMatch(ID)", 500)
 			log.Error(err.Error())
-			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			data.Error = "Unable to invoke function in the blockchain : " + renderError(err)
 			renderTemplate(w, r, "findPairedMatch.html", data)
 			return
 		}

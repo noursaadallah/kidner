@@ -24,7 +24,7 @@ func (app *Application) CreateDoctorHandler(w http.ResponseWriter, r *http.Reque
 		if err != nil {
 			//http.Error(w, "Unable to create Doctor in the blockchain : "+err.Error(), 500)
 			log.Error(err.Error())
-			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			data.Error = "Unable to invoke function in the blockchain : " + renderError(err)
 			renderTemplate(w, r, "createDoctor.html", data)
 			return
 		}

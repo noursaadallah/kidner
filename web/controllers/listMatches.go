@@ -26,7 +26,7 @@ func (app *Application) ListMatchesHandler(w http.ResponseWriter, r *http.Reques
 	if err != nil {
 		log.Error(err.Error())
 		//http.Error(w, "Unable to query the ID in the blockchain", 500)
-		data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+		data.Error = "Unable to invoke function in the blockchain : " + renderError(err)
 		renderTemplate(w, r, "listMatches.html", data)
 		return
 	}
@@ -35,7 +35,7 @@ func (app *Application) ListMatchesHandler(w http.ResponseWriter, r *http.Reques
 	if err != nil {
 		log.Error(err.Error())
 		//http.Error(w, "Get incorrect entity", 500)
-		data.Error = "Error unmarshalling slice of Matches : " + err.Error()
+		data.Error = "Error unmarshalling slice of Matches : " + renderError(err)
 		renderTemplate(w, r, "listMatches.html", data)
 		return
 	}

@@ -27,7 +27,7 @@ func (app *Application) GetPairHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			//http.Error(w, "Unable to query the ID in the blockchain", 500)
 			log.Error(err.Error())
-			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			data.Error = "Unable to invoke function in the blockchain : " + renderError(err)
 			renderTemplate(w, r, "getPair.html", data)
 			return
 		}
@@ -36,7 +36,7 @@ func (app *Application) GetPairHandler(w http.ResponseWriter, r *http.Request) {
 		if err != nil {
 			log.Error(err.Error())
 			//http.Error(w, "Get incorrect entity or result is empty", 500)
-			data.Error = "Error unmarshalling Pair entity : " + err.Error()
+			data.Error = "Error unmarshalling Pair entity : " + renderError(err)
 			renderTemplate(w, r, "getPair.html", data)
 			return
 		}

@@ -37,7 +37,7 @@ func (app *Application) RefuseMatchHandler(w http.ResponseWriter, r *http.Reques
 		if err != nil {
 			log.Error(err.Error())
 			//http.Error(w, "Unable to invoke refuseMatch in the blockchain", 500)
-			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			data.Error = "Unable to invoke function in the blockchain : " + renderError(err)
 			renderTemplate(w, r, "refuseMatch.html", data)
 			return
 		}

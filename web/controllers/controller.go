@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/noursaadallah/kidner/blockchain"
 )
@@ -45,4 +46,16 @@ func renderTemplate(w http.ResponseWriter, r *http.Request, templateName string,
 		fmt.Println(err.Error())
 		http.Error(w, http.StatusText(500), 500)
 	}
+}
+
+func renderError(err error) string {
+
+	_err := err.Error()
+	i := strings.Index(_err, "(status: 500")
+	if i == -1 {
+		return "Internal Server Error"
+	}
+
+	result := _err[i:]
+	return result
 }

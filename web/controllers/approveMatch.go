@@ -37,7 +37,7 @@ func (app *Application) ApproveMatchHandler(w http.ResponseWriter, r *http.Reque
 		if err != nil {
 			log.Error(err.Error())
 			//http.Error(w, "Unable to invoke approveMatch in the blockchain", 500)
-			data.Error = "Unable to invoke function in the blockchain : " + err.Error()
+			data.Error = "Unable to invoke function in the blockchain : " + renderError(err)
 			renderTemplate(w, r, "approveMatch.html", data)
 			return
 		}
